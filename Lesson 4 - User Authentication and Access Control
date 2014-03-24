@@ -1,0 +1,43 @@
+Lesson 4 - User Authentication and Access Control
+
+Cookies
+-sent in HTTP header response
+-stored in browser and each tme it makes a request, the browser will send the cookie data back to the server
+
+Cookie Headers
+-Set-Cookie: user_id = 12345
+-Set-Cookie: last_seen = Dec 23 1983
+
+Hashing
+H(x)->y
+one way function
+
+import hashlib
+x = hashlib.md5("Hello!")
+
+sha1(),sha256()
+
+x.hexdigest() ->returns hasdhed value
+
+Cookie Hashing
+Set-Cookie: visits=5, [hash]
+
+to check, hash the value and compare it to the hashed value on our local system, if == valid
+
+import hashlib
+
+def hash_str(s):
+        return hashlib.md5(s).hexdigest()
+
+def make_secure_val(s):
+        return "%s|%s" % (s, hash_str(s))
+
+def check_secure_val(h):
+        val = h.split('|')[0]
+        if h == make_secure_val(val):
+                return val
+
+
+Add secret so that if someone know we are using MD5, they won't be able to hack us
+
+H(SECRET + 1) = [HASH]

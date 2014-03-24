@@ -1,0 +1,57 @@
+
+https://developers.google.com/appengine/docs/python/datastore/entities#Python_Ancestor_paths
+
+caching - storing results of an operation so taht future results return faster
+
+if in cache
+	return cache
+else
+	r = db_read()
+	cache[request]=r
+	return r
+
+cache = {}
+def cached_computation(a, b):
+    ###Your code here.
+    key = (a,b)
+    if key in cache:
+        return cache[key]
+    else:
+        c = complex_computation(a,b)
+        cache[key] = c
+        return c
+
+
+With cache updating, a user viewing a page on the site is served from the cache in the same way we have seen before. However, when a user submits a new piece of art to ASCIIChan, the post() function will write the art to the database and simultaneously write it to the cache as well. Now this is a little more complex than the techniques we have seen so far, but it means that we never have to do a db read.
+
+Using this technique means that the only time we ever have to do a database read is when we start up the site, and we may actually set up a program to do this for us so that no user ever has to do a database read. This is the approach taken by Reddit. Every page that you can look at is stored in its own cache. When you post a link or update a vote they then update the appropriate caches.
+
+This effectively introduces the trade-off between complex inserts (and improved speed) versus database reads. In general, the more accurate the cache, the more complex the code will need to be.
+
+The additional complexity is probably not justified for ASCIIChan right now. The site simply isn't at that scale. However, large sites like Reddit gain huge benefits from using this technique.
+
+--Load Balancer
+>spreads requests across different app servers
+algos load balancers user
+-random
+-round robin
+-load based
+
+MemCached
+-set[key,value]
+-get(key)->value
+-delete(key)
+
+#Create MemCache Dict
+CACHE={}
+
+def set(key,value):
+    CACHE[key]=value
+    return True
+def get(key):
+    return CACHE.get(key)
+def delete(key):
+    if key in CACHE:
+        del CACHE[key]
+def flush():
+    CACHE.clear()

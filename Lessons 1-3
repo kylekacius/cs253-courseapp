@@ -1,0 +1,21 @@
+Get headers for site: example.iana.org
+
+telnet www.example.com 80
+GET /example HTTP/1.0
+Host: iana.org
+
+.isdigit()
+int()
+
+TUPLES
+# For example, to print all the votes for all of the links, do this:
+#
+# c = db.execute("select * from links")
+# for link_tuple in c:
+#     link = Link(*link_tuple)
+#     print link.votes
+
+link
+links.append
+
+link_index[link.id]-link
